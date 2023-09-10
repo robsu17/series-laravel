@@ -12,7 +12,13 @@ class SeriesController extends Controller
     public function index(Request $request)
     {
         $series = Serie::query()->orderBy('nome')->get();
-        return view("series.index", ['series' => $series]);
+        $mensagemRecebida = $request->session()->get('mensagem.sucesso');
+        $serieAdicionada = $request->session()->get('mensagem.adicionada');
+        return view("series.index", [
+            'series' => $series,
+            'mensagemSucesso' => $mensagemRecebida,
+            'serieAdicionada' => $serieAdicionada
+        ]);
     }
 
     public function create()
@@ -27,6 +33,14 @@ class SeriesController extends Controller
         $serie->nome = $nomeSerie;
         $serie->save();
 
-        return redirect('series');
+        $request->session()->flash('mensagem.adicionada', 'Série adicionada com sucesso!');
+
+        return to_route('series.index');
+    }
+
+    public function destroy(Request $request) {
+        Serie::destroy($request->series);
+        $request->session()->flash('mensagem.sucesso', 'Serie removida com sucesso!');
+        return to_route('series.index');
     }
 }
