@@ -28,19 +28,14 @@ class SeriesController extends Controller
 
     public function store(Request $request)
     {
-        $nomeSerie = $request->input('nome');
-        $serie = new Serie();
-        $serie->nome = $nomeSerie;
-        $serie->save();
-
-        $request->session()->flash('mensagem.adicionada', 'Série adicionada com sucesso!');
-
-        return to_route('series.index');
+        $serie = Serie::create($request->all());
+        return to_route('series.index')
+            ->with('mensagem.adicionada', "Série '{$serie->nome}' adicionada com sucesso!");
     }
 
-    public function destroy(Request $request) {
-        Serie::destroy($request->series);
-        $request->session()->flash('mensagem.sucesso', 'Serie removida com sucesso!');
-        return to_route('series.index');
+    public function destroy(Serie $series) {
+        $series->delete();
+        return to_route('series.index')
+            ->with('mensagem.sucesso', "Serie '{$series->nome}' removida com sucesso!");
     }
 }
