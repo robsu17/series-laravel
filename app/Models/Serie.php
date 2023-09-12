@@ -9,10 +9,16 @@ class Serie extends Model
 {
     use HasFactory;
 
-    public static function create(array $serieNome) {
+    public static function create(array $serieName) {
         $serie = new Serie();
-        $serie->nome = $serieNome["nome"];
+        $serie->nome = $serieName["nome"];
         $serie->save();
         return $serie;
+    }
+
+    public static function updateName($series, array $newNameSerie) {
+        $series->nome = $newNameSerie["nome"];
+        $series->save();
+        return $series;
     }
 }

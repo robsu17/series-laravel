@@ -1,6 +1,7 @@
 <x-layout title="Editar">
-    <form action="{{ route('series.editar', $serie->id) }}" method="post">
+    <form action="{{ route('series.update', $serie->id) }}" method="post">
         @csrf
+        @method('PUT')
         <div class="mb-3">
             <label class="form-label" for="nome">Nome:</label>
             <input class="form-control" type="text" name="nome" id="nome" autocomplete="off" required value="{{ $serie->nome }}">
