@@ -33,9 +33,26 @@ class SeriesController extends Controller
             ->with('mensagem.adicionada', "Série '{$serie->nome}' adicionada com sucesso!");
     }
 
-    public function destroy(Serie $series) {
+    public function destroy(Serie $series)
+    {
         $series->delete();
         return to_route('series.index')
             ->with('mensagem.sucesso', "Serie '{$series->nome}' removida com sucesso!");
     }
+
+    public function edit(Request $request)
+    {
+        $serie = Serie::find($request->route('id'));
+        return view('series.update', ["serie" => $serie]);
+    }
+
+    public function editar(Request $request)
+    {
+        $serie = Serie::find($request->route('id'));
+        $serie->nome = $request->get('nome');
+        $serie->save();
+        return to_route('series.index')
+            ->with('mensagem.sucesso', "Serie '{$serie->nome}' editada com sucesso!");
+    }
+
 }

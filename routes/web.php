@@ -21,3 +21,5 @@ Route::get('/', function () {
 Route::resource('series', SeriesController::class)
     ->only(['index', 'create', 'store', 'destroy']);
 
+Route::get('series/edit/{id}', [SeriesController::class, 'edit'])->name('series.edit');
+Route::post('series/editar/{id}', [SeriesController::class, 'editar'])->name('series.editar');
