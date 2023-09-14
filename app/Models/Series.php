@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use function PHPUnit\TestFixture\func;
 
-class Serie extends Model
+class Series extends Model
 {
     use HasFactory;
+    protected $fillable = ['nome'];
 
     public static function create(array $serieName) {
-        $serie = new Serie();
+        $serie = new Series();
         $serie->nome = $serieName["nome"];
         $serie->save();
         return $serie;
@@ -20,5 +23,16 @@ class Serie extends Model
         $series->nome = $newNameSerie["nome"];
         $series->save();
         return $series;
+    }
+
+    public function seasons() {
+        return $this->hasMany(Season::class, 'series_id');
+    }
+
+    protected static function booted()
+    {
+        self::addGlobalScope('ordered', function (Builder $queryBuilder) {
+            $queryBuilder->orderBy('nome');
+        });
     }
 }
