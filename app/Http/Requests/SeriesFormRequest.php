@@ -23,7 +23,9 @@ class SeriesFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required', 'min:3']
+            'nome' => ['required', 'min:3'],
+            'seasonsQty' => ['required'],
+            'episodesPerSeason' => ['required']
         ];
     }
 
@@ -31,7 +33,9 @@ class SeriesFormRequest extends FormRequest
     {
         return [
             'nome.required' => 'O campo "nome" é obrigatório!',
-            'nome.min' => 'O campo "nome" precisa de pelo menos :min caracteres!'
+            'nome.min' => 'O campo "nome" precisa de pelo menos :min caracteres!',
+            'seasonsQty.required' => 'O campo "Temporadas" é obrigatório!',
+            'episodesPerSeason.required' => 'O campo "Episodios" é obrigatório!'
         ];
     }
 }

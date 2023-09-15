@@ -68,7 +68,8 @@ class SeriesController extends Controller
 
     public function update(Series $series, SeriesFormRequest $request)
     {
-        Series::updateName($series, $request->all());
+        $series->fill($request->all());
+        $series->save();
         return to_route('series.index')
             ->with('mensagem.sucesso', "Series '{$series->nome}' editada com sucesso!");
     }
