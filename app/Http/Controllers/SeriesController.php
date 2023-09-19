@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Episode;
-use App\Models\Season;
 use App\Models\Series;
 use App\Repositories\SeriesRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use function Webmozart\Assert\Tests\StaticAnalysis\object;
 
 class SeriesController extends Controller
 {
@@ -18,7 +13,7 @@ class SeriesController extends Controller
     {
     }
 
-    public function index(Request $request, Series $seasons)
+    public function index(Request $request)
     {
         $series = Series::all();
         $mensagemRecebida = $request->session()->get('mensagem.sucesso');
