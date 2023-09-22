@@ -2,25 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Autenticador;
 use App\Http\Requests\SeriesFormRequest;
 use App\Models\Series;
 use App\Repositories\SeriesRepository;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SeriesController extends Controller
 {
     public function __construct(private SeriesRepository $repository)
     {
+        $this->middleware(Autenticador::class)->except('index');
     }
 
     public function index(Request $request)
     {
         $series = Series::all();
-        $mensagemRecebida = $request->session()->get('mensagem.sucesso');
-        $serieAdicionada = $request->session()->get('mensagem.adicionada');
+        $serieRemovida = session('mensagem.removida');
+        $serieAdicionada = session('mensagem.adicionada');
         return view("series.index", [
             'series' => $series,
-            'mensagemSucesso' => $mensagemRecebida,
+            'serieRemovida' => $serieRemovida,
             'serieAdicionada' => $serieAdicionada
         ]);
     }
@@ -41,7 +45,7 @@ class SeriesController extends Controller
     {
         $series->delete();
         return to_route('series.index')
-            ->with('mensagem.sucesso', "Series '{$series->nome}' removida com sucesso!");
+            ->with('mensagem.removida', "Series '{$series->nome}' removida com sucesso!");
     }
 
     public function edit(Series $series)
