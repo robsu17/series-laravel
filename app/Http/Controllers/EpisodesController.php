@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Episode;
 use App\Models\Season;
 use App\Models\Series;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use function PHPUnit\TestFixture\func;
 
 
 class EpisodesController extends Controller
@@ -16,17 +19,26 @@ class EpisodesController extends Controller
         $episodiosMarcados = $request->session()->get('mensagem.marcados');
         return view('episodes.index', [
             'episodes' => $season->episodes,
-            'mensagemMarcados' => $episodiosMarcados
+            'mensagemMarcados' => $episodiosMarcados,
+            'id' => $season->id
         ]);
     }
 
     public function update(Request $request, Season $season) {
-        $watchedEpisoes = $request->episodes;
-        $season->episodes->each(function (Episode $episode) use ($watchedEpisoes) {
-            $episode->watched = in_array($episode->id, $watchedEpisoes);
-        });
+        DB::transaction(function () use ($request, $season) {
+            $episodesMarked = [];
+            foreach ($request->episodes as $watchedEpisodes) {
+                $episodesMarked[] = [
+                    'id' => $watchedEpisodes,
+                    'number' => $season->episodes()->find($watchedEpisodes)->number,
+                    'watched' => true,
+                    'season_id' => $season->id
+                ];
+            }
 
-        $season->push();
+
+            Episode::upsert($episodesMarked, ['id'], ['watched']);
+        });
 
         return to_route('episodes.index', $season->id)->with('mensagem.marcados', 'Episodios marcados como assistidos');
     }
