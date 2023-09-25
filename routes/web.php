@@ -5,7 +5,6 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SeasonsController;
 use App\Http\Controllers\SeriesController;
 use App\Http\Controllers\UsersController;
-use App\Http\Middleware\Autenticador;
 use Illuminate\Support\Facades\Route;
 
 
@@ -29,4 +28,8 @@ Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
 
 Route::get('/register', [UsersController::class, 'create'])->name('users.create');
 Route::post('/register', [UsersController::class, 'store'])->name('users.store');
+
+Route::get('/email', function () {
+    return new \App\Mail\SeriesCreated('The Witcher', 1, 3, 15);
+});
 

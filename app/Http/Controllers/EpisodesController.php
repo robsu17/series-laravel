@@ -20,7 +20,6 @@ class EpisodesController extends Controller
         return view('episodes.index', [
             'episodes' => $season->episodes,
             'mensagemMarcados' => $episodiosMarcados,
-            'id' => $season->id
         ]);
     }
 
@@ -35,7 +34,6 @@ class EpisodesController extends Controller
                     'season_id' => $season->id
                 ];
             }
-
 
             Episode::upsert($episodesMarked, ['id'], ['watched']);
         });
