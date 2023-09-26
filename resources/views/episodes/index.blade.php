@@ -14,12 +14,19 @@
                         type="checkbox"
                         name="episodes[]"
                         value="{{ $episode->id }}"
-                        @if($episode->watched) checked @endif
+                        @if($episode->watched || $condition) checked @endif
                     />
                 </li>
             @endforeach
         </ul>
-        <button class="btn btn-primary mt-2 mb-2">Salvar</button>
-        <a class="btn btn-dark" href="{{ route('series.index') }}">Voltar</a>
+        <div class="d-flex h-100 justify-content-between">
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary mt-2 mb-2">Salvar</button>
+                <a class="btn btn-dark mt-2 mb-2" href="{{ route('series.index') }}">Voltar</a>
+            </div>
+            <div>
+                <a class="btn btn-dark mt-2 mb-2" href="{{ route('episodes.all', $id) }}">Selecionar todos</a>
+            </div>
+        </div>
     </form>
 </x-layout>

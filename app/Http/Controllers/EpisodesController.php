@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Episode;
 use App\Models\Season;
-use App\Models\Series;
-use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use function PHPUnit\TestFixture\func;
-
 
 class EpisodesController extends Controller
 {
@@ -18,8 +13,10 @@ class EpisodesController extends Controller
     {
         $episodiosMarcados = $request->session()->get('mensagem.marcados');
         return view('episodes.index', [
+            'id' => $season->id,
             'episodes' => $season->episodes,
             'mensagemMarcados' => $episodiosMarcados,
+            'condition' => $request->session()->get('condition')
         ]);
     }
 
@@ -39,5 +36,10 @@ class EpisodesController extends Controller
         });
 
         return to_route('episodes.index', $season->id)->with('mensagem.marcados', 'Episodios marcados como assistidos');
+    }
+
+    public function selectAll(Request $request) {
+        return to_route('episodes.index', $request->route()->id)
+            ->with('condition', true);
     }
 }

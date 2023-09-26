@@ -33,3 +33,4 @@ Route::get('/email', function () {
     return new \App\Mail\SeriesCreated('The Witcher', 1, 3, 15);
 });
 
+Route::get('/episodes/select/{id}/all', [EpisodesController::class, 'selectAll'])->name('episodes.all');
