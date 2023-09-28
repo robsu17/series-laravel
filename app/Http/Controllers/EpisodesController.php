@@ -23,11 +23,11 @@ class EpisodesController extends Controller
     public function update(Request $request, Season $season) {
         DB::transaction(function () use ($request, $season) {
             $episodesMarked = [];
-            foreach ($request->episodes as $watchedEpisodes) {
+            foreach ($season->episodes()->get() as $watchedEpisodes) {
                 $episodesMarked[] = [
-                    'id' => $watchedEpisodes,
-                    'number' => $season->episodes()->find($watchedEpisodes)->number,
-                    'watched' => true,
+                    'id' => $watchedEpisodes->id,
+                    'number' => $watchedEpisodes->number,
+                    'watched' => in_array($watchedEpisodes->id, $request->episodes),
                     'season_id' => $season->id
                 ];
             }
