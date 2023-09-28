@@ -26,17 +26,10 @@ class EpisodesController extends Controller
     }
 
     public function update(Request $request, Season $season) {
-        $arrayEpisodes = [];
-        foreach ($season->episodes()->get() as $episodes) {
-            $arrayEpisodes[] = [
-                'id' => $episodes->id,
-                'number' => $episodes->number,
-                'watched' => $episodes->watched,
-                'season_id' => $season->id
-            ];
-        }
 
-        $this->repository->updateEpisodesMarked($request->episodes, $arrayEpisodes);
+        $episodesRequest = $request->episodes;
+        $episodesSeason = $season->episodes()->get();
+        $this->repository->updateEpisodesMarked($episodesRequest, $episodesSeason->toArray());
 
         return to_route('episodes.index', $season->id)->with('mensagem.marcados', 'Episodios atualizados');
     }
