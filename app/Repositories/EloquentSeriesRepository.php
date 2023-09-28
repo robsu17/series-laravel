@@ -37,19 +37,10 @@ class EloquentSeriesRepository implements SeriesRepository
     }
 
     public function updateEpisodesMarked(array $episodesMarked, array $episodesAll) {
-        $arrayEpisodes = [];
-        foreach ($episodesAll as $episodes) {
-            $arrayEpisodes[] = [
-                'id' => $episodes["id"],
-                'number' => $episodes["number"],
-                'watched' => $episodes["watched"],
-                'season_id' => $episodes["season_id"]
-            ];
-        }
 
-        DB::transaction(function () use ($episodesMarked, $arrayEpisodes) {
+        DB::transaction(function () use ($episodesMarked, $episodesAll) {
             $episodesMarkedUpdate = [];
-            foreach ($arrayEpisodes as $episode) {
+            foreach ($episodesAll as $episode) {
                 $episodesMarkedUpdate[] = [
                     'id' => $episode["id"],
                     'number' => $episode["number"],
