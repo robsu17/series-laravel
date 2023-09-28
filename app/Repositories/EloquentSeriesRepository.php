@@ -35,4 +35,20 @@ class EloquentSeriesRepository implements SeriesRepository
             return $serie;
         });
     }
+
+    public function updateEpisodesMarked(array $episodesMarked, array $episodesAll) {
+        DB::transaction(function () use ($episodesMarked, $episodesAll) {
+            $episodesMarkedUpdate = [];
+            foreach ($episodesAll as $episode) {
+                $episodesMarkedUpdate[] = [
+                    'id' => $episode["id"],
+                    'number' => $episode["number"],
+                    'watched' => in_array($episode["id"], $episodesMarked),
+                    'season_id' => $episode["season_id"]
+                ];
+            }
+
+            Episode::upsert($episodesMarkedUpdate, ['id'], ['watched']);
+        });
+    }
 }
