@@ -18,10 +18,10 @@
         @foreach ($series as $serie)
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="d-flex flex-column">
-                    <img src="{{ asset('storage/' . $serie->cover) }}" width="100px" class="img-thumbnail" alt="thumbnail">
+                    <img src="{{ asset('/storage/' . $serie->cover) }}" width="100px" class="img-thumbnail" alt="thumbnail">
                     @auth<a href="{{ route('seasons.index', $serie->id) }}" class="icon-link-hover text-decoration-none">@endauth
                         {{ $serie->nome }}
-                        @auth</a>@endauth
+                    @auth</a>@endauth
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center gap-3 btn-sm">
                     @auth

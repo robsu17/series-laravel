@@ -8,6 +8,8 @@ use App\Models\Series;
 use App\Repositories\SeriesRepository;
 use Illuminate\Http\Request;
 use App\Events\SeriesCreated as SeriesCreatedEvent;
+use Illuminate\Support\Facades\Storage;
+use Psy\Util\Str;
 
 class SeriesController extends Controller
 {
@@ -25,7 +27,7 @@ class SeriesController extends Controller
         return view("series.index", [
             'series' => $series,
             'serieRemovida' => $serieRemovida,
-            'serieAdicionada' => $serieAdicionada
+            'serieAdicionada' => $serieAdicionada,
         ]);
     }
 
@@ -36,11 +38,11 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-        $coverPath = $request->file('cover')
-            ->store('series_cover', 'public');
+        $coverAuthResult = $request->file('cover')?->store('series_cover', 'public');
+
         $serie = $this->repository->add([
             'nome' => $request->nome,
-            'cover' => $coverPath,
+            'cover' => $coverAuthResult ?? "series_cover/GOrLCmAM20udhGuCWK1ulsGgsDIAwKhBpJNGDHoC.png",
             'seasonsQty' => $request->seasonsQty,
             'episodesPerSeason' => $request->episodesPerSeason
         ]);
