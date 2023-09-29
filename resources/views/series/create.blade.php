@@ -1,7 +1,6 @@
 <x-layout title="Nova Série">
-    <form action="{{ route('series.store') }}" method="post">
+    <form action="{{ route('series.store') }}" method="post" enctype="multipart/form-data">
         @csrf
-
 
         <div class="row mb-3">
             <div class="col-8">
@@ -19,7 +18,8 @@
                 <input
                     class="form-control"
                     type="text" name="seasonsQty"
-                    id="seasonsQty" value="{{ old('seasonsQty') }}"
+                    id="seasonsQty"
+                    value="{{ old('seasonsQty') }}"
                     autocomplete="off"
                 >
             </div>
@@ -28,8 +28,22 @@
                 <input
                     class="form-control"
                     type="text" name="episodesPerSeason"
-                    id="episodesPerSeason" value="{{ old('episodesPerSeason') }}"
+                    id="episodesPerSeason"
+                    value="{{ old('episodesPerSeason') }}"
                     autocomplete="off"
+                >
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="cover" class="form-label">Capa</label>
+                <input
+                    type="file"
+                    id="cover"
+                    name="cover"
+                    class="form-control"
+                    accept="image/gif, image/jpeg, image/png"
                 >
             </div>
         </div>

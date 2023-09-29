@@ -25,7 +25,8 @@ class SeriesFormRequest extends FormRequest
         return [
             'nome' => ['required', 'min:3'],
             'seasonsQty' => ['required'],
-            'episodesPerSeason' => ['required']
+            'episodesPerSeason' => ['required'],
+            'cover' => ['required', 'image']
         ];
     }
 
@@ -35,7 +36,9 @@ class SeriesFormRequest extends FormRequest
             'nome.required' => 'O campo "nome" é obrigatório!',
             'nome.min' => 'O campo "nome" precisa de pelo menos :min caracteres!',
             'seasonsQty.required' => 'O campo "Temporadas" é obrigatório!',
-            'episodesPerSeason.required' => 'O campo "Episodios" é obrigatório!'
+            'episodesPerSeason.required' => 'O campo "Episodios" é obrigatório!',
+            'cover.required' => 'O campo "Capa" é obrigatório',
+            'cover.image' => 'Formato de imagem inválido'
         ];
     }
 }

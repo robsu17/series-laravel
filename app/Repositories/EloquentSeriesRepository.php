@@ -12,6 +12,7 @@ class EloquentSeriesRepository implements SeriesRepository
     public function add(array $dataArray): Series {
         return DB::transaction(function () use ($dataArray) {
             $serie = Series::create($dataArray);
+
             $seasons = [];
             for ($i = 1; $i <= $dataArray["seasonsQty"]; $i++) {
                 $seasons[] = [
