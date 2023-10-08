@@ -12,6 +12,9 @@ class UsersController
 {
     public function create()
     {
+        if (Auth::check()) {
+            return to_route('series.index');
+        }
         return view('users.create');
     }
 

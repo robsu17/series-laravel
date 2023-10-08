@@ -38,11 +38,14 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-        $coverAuthResult = $request->file('cover')?->store('series_cover', 'public');
+        $coverAuthResultDefault = "series_cover/GOrLCmAM20udhGuCWK1ulsGgsDIAwKhBpJNGDHoC.png";
+        $coverAuthResult = $request->hasFile('cover')
+            ? $request->file('cover')->store('series_cover', 'public')
+            : $coverAuthResultDefault;
 
         $serie = $this->repository->add([
             'nome' => $request->nome,
-            'cover' => $coverAuthResult ?? "series_cover/GOrLCmAM20udhGuCWK1ulsGgsDIAwKhBpJNGDHoC.png",
+            'cover' => $coverAuthResult,
             'seasonsQty' => $request->seasonsQty,
             'episodesPerSeason' => $request->episodesPerSeason
         ]);

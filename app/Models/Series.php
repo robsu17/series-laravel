@@ -11,6 +11,7 @@ class Series extends Model
 {
     use HasFactory;
     protected $fillable = ['nome', 'cover'];
+    public $timestamps = false;
 
     public function seasons() {
         return $this->hasMany(Season::class, 'series_id');

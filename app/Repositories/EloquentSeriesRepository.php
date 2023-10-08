@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class EloquentSeriesRepository implements SeriesRepository
 {
-    public function add(array $dataArray): Series {
-        return DB::transaction(function () use ($dataArray) {
+    public function add(array $dataArray): Series
+    {
+        return DB::transaction(function () use ($dataArray)
+        {
             $serie = Series::create($dataArray);
 
             $seasons = [];
@@ -37,8 +39,8 @@ class EloquentSeriesRepository implements SeriesRepository
         });
     }
 
-    public function updateEpisodesMarked(array $episodesMarked, array $episodesAll) {
-
+    public function updateEpisodesMarked(array $episodesMarked, array $episodesAll)
+    {
         DB::transaction(function () use ($episodesMarked, $episodesAll) {
             $episodesMarkedUpdate = [];
             foreach ($episodesAll as $episode) {

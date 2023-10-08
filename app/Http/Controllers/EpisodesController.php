@@ -25,13 +25,20 @@ class EpisodesController extends Controller
         ]);
     }
 
-    public function update(Request $request, Season $season) {
-
+    public function update(Request $request, Season $season)
+    {
         $episodesRequest = $request->episodes;
+
+        if (!$episodesRequest) {
+            return to_route('episodes.index', $season->id)
+            ->with('mensagem.marcados', 'Nenhum episódio marcado');
+        }
+
         $episodesSeason = $season->episodes()->get();
         $this->repository->updateEpisodesMarked($episodesRequest, $episodesSeason->toArray());
 
-        return to_route('episodes.index', $season->id)->with('mensagem.marcados', 'Episodios atualizados');
+        return to_route('episodes.index', $season->id)
+            ->with('mensagem.marcados', 'Episodios atualizados');
     }
 
     public function selectAll(Request $request) {

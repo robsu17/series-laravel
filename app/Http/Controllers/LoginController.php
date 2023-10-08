@@ -9,6 +9,9 @@ class LoginController
 {
     public function index()
     {
+        if (Auth::check()) {
+            return to_route('series.index');
+        }
         return view('login.index');
     }
 
